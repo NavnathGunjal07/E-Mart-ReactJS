@@ -5,14 +5,19 @@ import {addCart} from "../redux/actions";
 import {useParams} from 'react-router';
 import Skeleton from 'react-loading-skeleton';
 import { NavLink } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
 function Product() {
     const {id} = useParams();
     const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(false);
+    const { addToast } = useToasts();
 
     const dispatch = useDispatch();
     const addProduct = (p) => {
         dispatch(addCart(p));
+        addToast('Successfully Added product to cart', {
+            appearance: 'success',
+          });
     }
 
 

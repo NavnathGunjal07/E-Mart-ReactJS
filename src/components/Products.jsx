@@ -4,13 +4,18 @@ import {addCart} from "../redux/actions";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import {NavLink} from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
 function Products() {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(false);
+  const { addToast } = useToasts();
   const dispatch = useDispatch();
   const addProduct = (p) => {
       dispatch(addCart(p));
+      addToast('Successfully Added product to cart', {
+        appearance: 'success',
+      });
   }
 
   let componentMounted = true;
@@ -58,6 +63,9 @@ function Products() {
         return a.price-b.price;
       })
         setFilter(updatedList);
+        addToast('Sorted products by price ', {
+          appearance: 'success',
+        });
         return;
     }
   }
@@ -72,7 +80,9 @@ function Products() {
          
             <button className="btn btn-outline-dark me-2" onClick={()=>filterProduct("electronics")}> Electronics </button>
             <button className="btn btn-outline-dark me-2" style={{marginLeft:"35%"}} onClick={()=>filterProduct("sort")}> Sort By Price </button>
-            <img  src="https://img.icons8.com/color/48/000000/delete-sign--v1.png"  onClick={()=>setFilter(data)} alt="X"/>
+            <img  src="https://img.icons8.com/color/48/000000/delete-sign--v1.png"  onClick={()=>{setFilter(data); addToast('Sorting is removed', {
+          appearance: 'warning',
+        })}} alt="X"/>
          
         </div>
         {filter.map((product) => {

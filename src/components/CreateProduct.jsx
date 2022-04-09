@@ -1,8 +1,9 @@
 import React from "react";
+import { useToasts } from 'react-toast-notifications';
 
 function CreateProduct() {
+  const { addToast } = useToasts();
   return (
-
     <div style={{height:"70%"}} >
        <h1 className="display-6 fw-bolder text-center">Add Product</h1>
       <hr/>
@@ -49,7 +50,9 @@ function CreateProduct() {
             />
           </div>
          </div>
-        <button type="submit" class="btn btn-primary mt-4">
+        <button type="submit" class="btn btn-primary mt-4" onClick={()=>{addToast('Dummy request for creating product', {
+      appearance: 'success',
+    });}}>
           Add Product
         </button>
       </form>

@@ -4,22 +4,30 @@ import {useDispatch} from 'react-redux';
 import {addCart,delCart} from "../redux/actions";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useSelector } from "react-redux";
+import { useToasts } from 'react-toast-notifications';
 
 function Cart() {
   const state = useSelector((state) => state.handleCart);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
+  const { addToast } = useToasts();
   const [loading, setLoading] = useState(false);
+
+  
 
   let componentMounted = true;
   const dispatch = useDispatch();
   const addProduct = (p) => {
     dispatch(addCart(p));
-    
+    addToast('Successfully Added product to cart', {
+      appearance: 'success',
+    });    
 }
 const delProduct = (p) => {
   dispatch(delCart(p));
-  
+  addToast('Successfully removed product from cart', {
+    appearance: 'warning',
+  });
 }
   useEffect(() => {
     const getProducts = async () => {
