@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import {useDispatch} from 'react-redux';
+import {addCart} from "../redux/actions";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import {NavLink} from 'react-router-dom';
@@ -6,6 +8,10 @@ function Products() {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const addProduct = (p) => {
+      dispatch(addCart(p));
+  }
 
   let componentMounted = true;
 
@@ -41,8 +47,19 @@ function Products() {
     </>;
   };
   const filterProduct = (cat) =>{
-    const updatedList = data.filter((x)=>x.category===cat)
-    setFilter(updatedList);
+    if(cat!=="sort"){
+      const updatedList = data.filter((x)=>x.category===cat)
+      setFilter(updatedList);
+      return ;
+    }
+    if(cat==="sort"){
+      const updatedList = data.filter((x)=>x.price!==0);
+      updatedList.sort(function(a,b){
+        return a.price-b.price;
+      })
+        setFilter(updatedList);
+        return;
+    }
   }
   const ShowProducts = () => {
     return (
@@ -52,9 +69,11 @@ function Products() {
           <button className="btn btn-outline-dark me-2" onClick={()=>filterProduct("men's clothing")}> Men's Clothing</button>
           <button className="btn btn-outline-dark me-2" onClick={()=>filterProduct("women's clothing")}> Women's Clothing
           </button>
-          <div className="buttons">
+         
             <button className="btn btn-outline-dark me-2" onClick={()=>filterProduct("electronics")}> Electronics </button>
-          </div>
+            <button className="btn btn-outline-dark me-2" style={{marginLeft:"35%"}} onClick={()=>filterProduct("sort")}> Sort By Price </button>
+            <img  src="https://img.icons8.com/color/48/000000/delete-sign--v1.png"  onClick={()=>setFilter(data)} alt="X"/>
+         
         </div>
         {filter.map((product) => {
           return (
@@ -62,6 +81,7 @@ function Products() {
               <div className="col-md-3 mb-4">
                 <div className="card h-100 text-center p-4" key={product.id}>
                   <img src={product.image} className="card-img-top" alt={product.title} height="250px"/>
+                 
                   <div className="card-body">
                     <h5 className="card-title mb-0">{product.title.substring(0, 12)}</h5>
                   ...  <p className="card-text lead fw-bold">
@@ -70,6 +90,8 @@ function Products() {
                     <NavLink to={`/products/${product.id}`} className="btn btn-outline-dark">
                       Buy Now
                     </NavLink>
+                    <br/>
+                    <button className="btn btn-outline-dark px-4 py-2" onClick={()=>addProduct(product)}>Add to Cart</button>
                   </div>
                 </div>
               </div>
