@@ -25,7 +25,6 @@ const handleCart = (state=cart, action)=>{
                 const exists1 = state.find((x)=>x.id===product.id);
                 if(exists1.qty==1){
                     return state.filter((x)=>x.id!==exists1.id);
-
                 }
                 else{
                     return state.map((x)=>x.id===product.id? {...x,qty:x.qty-1}:x);

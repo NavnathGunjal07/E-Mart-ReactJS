@@ -19,7 +19,16 @@ function Product() {
             appearance: 'success',
           });
     }
-
+   const editProduct = ()=>{
+        document.getElementById("title").style.display = "none";
+        document.getElementById("category").style.display = "none";
+        document.getElementById("input-title").style.display = "block";
+        document.getElementById("input-cat").style.display = "block";
+        document.getElementById("save").style.display = "inline-block";
+        document.getElementById("cancel").style.display = "inline-block";
+        document.getElementById("addcart").style.display = "none";
+        document.getElementById("gocart").style.display = "none";
+    }
 
     useEffect(() =>{
         const getProduct = async () =>{
@@ -51,12 +60,17 @@ function Product() {
       const ShowProduct = () => {
         return (
           <>
+         
           <div className="col-md-6">
               <img src={product.image} alt={product.title} height="400px" width="400px"/>
           </div>
-          <div className="col-md-6">
-              <h4 className="text-uppercase text-black-50">{product.category}</h4>
-              <h1 className="display-5">{product.title}</h1>
+          <div className="col-md-6" style={{marginTop:"-6%"}}>
+              <img style={{marginLeft:"80%"}}src="https://img.icons8.com/bubbles/50/000000/edit.png" onClick={()=>editProduct()} alt="edit"/>
+             <h4 className="text-uppercase text-black-50"> <input  className="text-uppercase text-black-50" style={{display:"none"}} id = "input-cat" value={product.category}  type="text" name="title" /> </h4> 
+              <h4 id = "category" className="text-uppercase text-black-50">{product.category}</h4> 
+              
+             <h1 className="display-5"> <input id = "input-title"   className="display-5" style={{display:"none"}} value={product.title} type="text" name="title" /></h1>               
+              <h1 id = "title" className="display-5">{product.title}</h1>
               <p className="lead">
                   Rating {product.rating&&product.rating.rate}
                   <i className="fa fa-star"></i>
@@ -67,8 +81,16 @@ function Product() {
               <p className="lead">
                   {product.description}
               </p>
-              <button className="btn btn-outline-dark px-4 py-2" onClick={()=>addProduct(product)}>Add to Cart</button>
-              <NavLink to = "/cart" className="btn btn-dark ms-2 px-3 py-2">
+              <NavLink to = "" id = "cancel" className="btn btn-outline-dark px-4 py-2" style={{display:"none"}} onClick={()=>{addToast('Canceled Editing product', {
+            appearance: 'warning',
+          })}}>Cancel</NavLink>
+              <NavLink to = "" id="save" style={{display:"none"}} onClick={()=>{addToast('Dummy save button', {
+            appearance: 'success',
+          })}} className="btn btn-dark ms-2 px-3 py-2">
+                    Save
+              </NavLink>
+              <button id = "addcart" className="btn btn-outline-dark px-4 py-2" onClick={()=>addProduct(product)}>Add to Cart</button>
+              <NavLink to = "/cart" id = "gocart" className="btn btn-dark ms-2 px-3 py-2">
                     Go to Cart
               </NavLink>
           </div>
