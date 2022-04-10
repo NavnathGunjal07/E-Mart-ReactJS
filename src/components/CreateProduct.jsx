@@ -16,6 +16,7 @@ function CreateProduct() {
               class="form-control"
               id="text"
               placeholder="Title"
+              required
             />
           </div>
           <div class="form-group col-md-6">
@@ -25,6 +26,7 @@ function CreateProduct() {
               class="form-control"
               id="desc"
               placeholder="Description"
+              required
             />
           </div>
           <div class="form-group col-md-10"  style={{marginTop:"2%",marginBottom:"2%"}}>
@@ -38,6 +40,7 @@ function CreateProduct() {
               class="form-control"
               id="price"
               placeholder="Price"
+              required
             />
           </div>
           <div class="form-group col-md-6">
@@ -47,6 +50,7 @@ function CreateProduct() {
               class="form-control"
               id="rating"
               placeholder="Rating"
+              required
             />
           </div>
          </div>

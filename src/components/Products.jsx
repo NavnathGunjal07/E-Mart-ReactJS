@@ -52,11 +52,6 @@ function Products() {
     </>;
   };
   const filterProduct = (cat) =>{
-    if(cat!=="sort"){
-      const updatedList = data.filter((x)=>x.category===cat)
-      setFilter(updatedList);
-      return ;
-    }
     if(cat==="sort"){
       const updatedList = data.filter((x)=>x.price!==0);
       updatedList.sort(function(a,b){
@@ -68,6 +63,18 @@ function Products() {
         });
         return;
     }
+    if(typeof(cat)==='number'){
+      console.log(cat, typeof(cat));
+      const updatedList = data.filter((x)=>x.id!==cat)
+      setFilter(updatedList); 
+      addToast('Deleted the product successfully', {
+        appearance: 'success',
+      });
+      return;
+    }    
+      const updatedList = data.filter((x)=>x.category===cat)
+      setFilter(updatedList); 
+    
   }
   const ShowProducts = () => {
     return (
@@ -90,6 +97,7 @@ function Products() {
             <>
               <div className="col-md-3 mb-4">
                 <div className="card h-100 text-center p-4" key={product.id}>
+                  <div style={{marginLeft:"90%", fontSize:"2rem"}}><i class="fa fa-trash"  onClick={()=>filterProduct(product.id)} ></i></div>
                   <img src={product.image} className="card-img-top" alt={product.title} height="250px"/>
                  
                   <div className="card-body">
